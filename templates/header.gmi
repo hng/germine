@@ -1,0 +1,10 @@
+# Germine Termine
+
+Ein Gemini-Mirror für Hermine Termine.
+
+> ... hermine ist ein Terminkalender in erster Linie fürs Ruhrgebiet, Düsseldorf und Umgebung. Auf Hermine findet ihr politische Veranstaltungen, Konzerte, Partys und alles Mögliche andere, was von Gruppen oder auch Einzelpersonen organisiert wird. Hermine ist unkommerziell und Gegnerin des Kapitalismus. Hermine will vernetzen, politische Kräfte bündeln und Spass fördern.
+
+=> https://hermine-termine.net
+
+=> /search 🔎 Suche
+

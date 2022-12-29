@@ -3,31 +3,31 @@ from icalevents.icalparser import parse_events
 from datetime import datetime
 import requests
 import re
+from pathlib import Path
+import os
 
 from .utils import timed_lru_cache
 
 
 app = JetforceApplication()
 
-CAL_URL = "https://hermine-termine.net/hermine/static/ics/hermine.ics"
+ROOT_DIR = Path(__file__).parent.parent
+DATEFORMAT_DAY = os.environ.get("GERMINE_DATEFORMAT_DAY", "%a, %d.%m.%y")
+DATEFORMAT_EVENT = os.environ.get("GERMINE_DATEFORMAT_DAY", "%H:%Mh")
+CAL_URL = os.environ.get("GERMINE_CAL_URL")
+TEMPLATE_HEADER = (ROOT_DIR / "templates" / "header.gmi").read_text()
+TEMPLATE_SEARCH = (ROOT_DIR / "templates" / "search.gmi").read_text()
+SEARCH_INPUT_MESSAGE = os.environ.get(
+    "GERMINE_SEARCH_INPUT_MESSAGE",
+    "Search query (searches in event summary and location)",
+)
 
 
 @timed_lru_cache(seconds=3600)
 @app.route("", strict_trailing_slash=False)
 def index(request):
     events = __get_events()
-    content = """
-# Germine Termine
-
-Ein Gemini-Mirror für Hermine Termine.
-
-> ... hermine ist ein Terminkalender in erster Linie fürs Ruhrgebiet, Düsseldorf und Umgebung. Auf Hermine findet ihr politische Veranstaltungen, Konzerte, Partys und alles Mögliche andere, was von Gruppen oder auch Einzelpersonen organisiert wird. Hermine ist unkommerziell und Gegnerin des Kapitalismus. Hermine will vernetzen, politische Kräfte bündeln und Spass fördern.
-
-=> https://hermine-termine.net
-
-=> /search 🔎 Suche
-
-"""
+    content = TEMPLATE_HEADER
     content += __generate_events_content(events)
 
     return Response(Status.SUCCESS, "text/gemini", content)
@@ -39,7 +39,7 @@ def search(request):
     search_term = request.query
     if not search_term:
         return Response(
-            Status.INPUT, "Suchbegriff eingeben (Durchsucht Titel und Ortsangabe)"
+            Status.INPUT, SEARCH_INPUT_MESSAGE
         )
 
     events = __get_events()
@@ -49,7 +49,9 @@ def search(request):
         or re.search(s, e.summary, re.IGNORECASE),
         events,
     )
-    content = __generate_events_content(filtered_events)
+    content = TEMPLATE_HEADER
+    content += TEMPLATE_SEARCH.format(search_term=search_term)
+    content += __generate_events_content(filtered_events)
 
     return Response(Status.SUCCESS, "text/gemini", content)
 
@@ -67,8 +69,8 @@ def __generate_events_content(events):
     content = ""
     day_prev = ""
     for event in events:
-        start_time = datetime.strftime(event.start, "%H:%Mh")
-        day = datetime.strftime(event.start, "%a, %d.%m.%y")
+        start_time = datetime.strftime(event.start, DATEFORMAT_EVENT)
+        day = datetime.strftime(event.start, DATEFORMAT_DAY)
 
         if not day == day_prev:
             content += f"\n## {day}\n"
