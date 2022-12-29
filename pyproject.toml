@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "germine-termine"
+version = "0.1.0"
+description = ""
+authors = ["Henning Schumann <henning.schumann@unicode-it.de>"]
+readme = "README.md"
+packages = [{include = "germine_termine"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Jetforce = "^0.9.1"
+icalevents = "^0.1.27"
+ics = "^0.7.2"
+requests = "^2.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
