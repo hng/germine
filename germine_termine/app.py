@@ -42,9 +42,7 @@ def index(request):
 def search(request):
     search_term = request.query
     if not search_term:
-        return Response(
-            Status.INPUT, SEARCH_INPUT_MESSAGE
-        )
+        return Response(Status.INPUT, SEARCH_INPUT_MESSAGE)
 
     events = __get_events()
 
@@ -94,5 +92,5 @@ def __generate_events_content(events):
 
 
 if __name__ == "__main__":
-    server = GeminiServer(app)
+    server = GeminiServer(app, host=HOST, hostname=HOSTNAME)
     server.run()
