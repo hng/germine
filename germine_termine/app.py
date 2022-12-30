@@ -5,6 +5,7 @@ import requests
 import re
 from pathlib import Path
 import os
+import html
 
 from .utils import timed_lru_cache
 
@@ -81,7 +82,7 @@ def __generate_events_content(events):
 
         content += f"\n### {start_time} - {event.summary}\n"
         if event.description:
-            description = event.description.replace("&nbsp;", " ").replace(r"\r", "")
+            description = html.unescape(event.description).replace(r"\r", "")
             content += f"\n{description}\n"
         if event.location:
             content += f"\n{event.location}\n"
