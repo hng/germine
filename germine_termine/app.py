@@ -12,6 +12,8 @@ from .utils import timed_lru_cache
 app = JetforceApplication()
 
 ROOT_DIR = Path(__file__).parent.parent
+HOST = os.environ.get("GERMINE_HOST", "127.0.0.1")
+HOSTNAME = os.environ.get("GERMINE_HOSTNAME", "localhost")
 DATEFORMAT_DAY = os.environ.get("GERMINE_DATEFORMAT_DAY", "%a, %d.%m.%y")
 DATEFORMAT_EVENT = os.environ.get("GERMINE_DATEFORMAT_DAY", "%H:%Mh")
 CAL_URL = os.environ.get("GERMINE_CAL_URL")

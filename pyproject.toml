@@ -2,7 +2,7 @@
 name = "germine-termine"
 version = "0.1.0"
 description = ""
-authors = ["Henning Schumann <henning.schumann@unicode-it.de>"]
+authors = ["Henning Schumann <henning@henningschumann.org>"]
 readme = "README.md"
 packages = [{include = "germine_termine"}]
 
