@@ -19,6 +19,7 @@ DATEFORMAT_EVENT = os.environ.get("GERMINE_DATEFORMAT_DAY", "%H:%Mh")
 CAL_URL = os.environ.get("GERMINE_CAL_URL")
 TEMPLATE_HEADER = (ROOT_DIR / "templates" / "header.gmi").read_text()
 TEMPLATE_SEARCH = (ROOT_DIR / "templates" / "search.gmi").read_text()
+TEMPLATE_FOOTER = (ROOT_DIR / "templates" / "footer.gmi").read_text()
 SEARCH_INPUT_MESSAGE = os.environ.get(
     "GERMINE_SEARCH_INPUT_MESSAGE",
     "Search query (searches in event summary and location)",
@@ -31,6 +32,7 @@ def index(request):
     events = __get_events()
     content = TEMPLATE_HEADER
     content += __generate_events_content(events)
+    content += TEMPLATE_FOOTER
 
     return Response(Status.SUCCESS, "text/gemini", content)
 
@@ -54,6 +56,7 @@ def search(request):
     content = TEMPLATE_HEADER
     content += TEMPLATE_SEARCH.format(search_term=search_term)
     content += __generate_events_content(filtered_events)
+    content += TEMPLATE_FOOTER
 
     return Response(Status.SUCCESS, "text/gemini", content)
 
