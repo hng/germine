@@ -23,3 +23,14 @@ The following ENV variables are used to configure Germine:
 ### Templates
 
 Templates for the header and the additional information displayed when searching can be found in the `templates/` folder. Overwrite them with your own content.
+
+## Setup
+
+Dependencies:
+
+* Python 3.10
+* Poetry
+
+1. Clone the repository.
+2. Run `poetry install`
+3. Start the server with: `GERMINE_CAL_URL="https://hermine-termine.net/hermine/static/ics/hermine.ics" poetry run python -m germine_termine.app` (you need to supply `GERMINE_CAL_URL` with an http(s) url to an .ics file)
